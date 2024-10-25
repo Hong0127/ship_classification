@@ -1,0 +1,50 @@
+# Model Configuration
+model:
+  num_classes: 5
+  backbone_type: 'resnet50'  # ['resnet50', 'efficientnet_b4', 'resnext50']
+  feature_dim: 2048
+  pretrained: true
+
+# Training Configuration
+training:
+  num_epochs: 30
+  batch_size: 32
+  learning_rate: 1e-4
+  weight_decay: 0.01
+  scheduler:
+    T_0: 10
+    T_mult: 2
+    eta_min: 1e-6
+
+# Domain Adaptation
+domain_adaptation:
+  lambda_domain: 0.1
+  lambda_mmd: 0.1
+
+# Data Configuration
+data:
+  img_size: 224
+  augment_prob: 0.5
+  num_workers: 4
+
+# Ensemble Configuration
+ensemble:
+  models:
+    - type: 'resnet50'
+      feature_dim: 2048
+    - type: 'efficientnet_b4'
+      feature_dim: 1792
+    - type: 'resnext50'
+      feature_dim: 2048
+
+# Paths
+paths:
+  train_data: './data/train'
+  test_data: './data/test'
+  save_dir: './results'
+  log_dir: './logs'
+
+# Monitoring
+monitoring:
+  submission_interval: 900  # 15 minutes in seconds
+  dashboard_port: 8050
